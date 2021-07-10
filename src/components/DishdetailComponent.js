@@ -21,7 +21,7 @@ export class DishdetailComponent extends Component {
       return (
         <>
           <h4>Comments</h4>
-          <ul class="list-unstyled">
+          <ul className="list-unstyled">
             {comments.map((comment) => {
               return (
                 <>
