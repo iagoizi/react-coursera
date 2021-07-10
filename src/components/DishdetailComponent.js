@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { Card, CardImg, CardText, CardBody, CardTitle } from "reactstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 export class DishdetailComponent extends Component {
   renderDish(dish) {
@@ -27,7 +28,12 @@ export class DishdetailComponent extends Component {
                 <>
                   <li>{comment.comment}</li>
                   <li>
-                    --{comment.author}, {new Date(comment.date).toDateString()}
+                    --{comment.author},{" "}
+                    {new Intl.DateTimeFormat("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "2-digit",
+                    }).format(new Date(Date.parse(comment.date)))}
                   </li>
                 </>
               );
