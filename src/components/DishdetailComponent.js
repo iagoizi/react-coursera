@@ -15,46 +15,46 @@ import {
 import { Link } from "react-router-dom";
 import * as React from "react";
 
-function RenderDish({ dish }) {
-  if (dish != null)
-    return (
-      <Card>
-        <CardImg top src={dish.image} alt={dish.name} />
-        <CardBody>
-          <CardTitle>{dish.name}</CardTitle>
-          <CardText>{dish.description}</CardText>
-        </CardBody>
-      </Card>
-    );
-  else return <div></div>;
-}
+import { required, maxLength, minLength } from "../shared/validators";
 
-function RenderComments({ comments }) {
-  if (comments != null)
-    return (
-      <>
-        <h4>Comments</h4>
-        <ul className="list-unstyled">
-          {comments.map((comment) => {
-            return (
-              <>
-                <li>{comment.comment}</li>
-                <li>
-                  --{comment.author},{" "}
-                  {new Intl.DateTimeFormat("en-US", {
-                    year: "numeric",
-                    month: "short",
-                    day: "2-digit",
-                  }).format(new Date(Date.parse(comment.date)))}
-                </li>
-              </>
-            );
-          })}
-        </ul>
-      </>
-    );
-  else return <div></div>;
-}
+const RenderDish = ({ dish }) =>
+  dish != null ? (
+    <Card>
+      <CardImg top src={dish.image} alt={dish.name} />
+      <CardBody>
+        <CardTitle>{dish.name}</CardTitle>
+        <CardText>{dish.description}</CardText>
+      </CardBody>
+    </Card>
+  ) : (
+    <div></div>
+  );
+
+const RenderComments = ({ comments }) =>
+  comments != null ? (
+    <>
+      <h4>Comments</h4>
+      <ul className="list-unstyled">
+        {comments.map((comment) => {
+          return (
+            <>
+              <li>{comment.comment}</li>
+              <li>
+                --{comment.author},{" "}
+                {new Intl.DateTimeFormat("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "2-digit",
+                }).format(new Date(Date.parse(comment.date)))}
+              </li>
+            </>
+          );
+        })}
+      </ul>
+    </>
+  ) : (
+    <div></div>
+  );
 
 const SubmitComment = ({ comments }) => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -63,9 +63,7 @@ const SubmitComment = ({ comments }) => {
 
   return (
     <div>
-      <Button color="danger" onClick={toggle}>
-        Submit Comment
-      </Button>
+      <Button onClick={toggle}>Submit Comment</Button>
       <Modal isOpen={isOpen} toggle={toggle}>
         <ModalHeader toggle={toggle}>Modal title</ModalHeader>
         <ModalBody>
