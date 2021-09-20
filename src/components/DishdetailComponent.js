@@ -60,6 +60,7 @@ const RenderComments = ({ comments }) =>
           );
         })}
       </ul>
+      <CommentForm comments={comments} />
     </>
   ) : (
     <div></div>
@@ -94,7 +95,7 @@ const CommentForm = ({ comments }) => {
                 id="rating"
                 name="rating"
                 className="form-control"
-                defaultValue={10}
+                defaultValue={5}
               >
                 {[0, 1, 2, 3, 4, 5].map((number) => (
                   <option key={number} value={number}>
@@ -105,13 +106,13 @@ const CommentForm = ({ comments }) => {
             </Row>
 
             <Row className="form-group">
-              <Label className="form-label" htmlFor="name">
+              <Label className="form-label" htmlFor="author">
                 Your Name
               </Label>
               <Control.Text
-                model=".name"
-                id="name"
-                name="name"
+                model=".author"
+                id="author"
+                name="author"
                 className="form-control"
                 placeholder="Your Name"
                 validators={{
@@ -122,7 +123,7 @@ const CommentForm = ({ comments }) => {
               />
               <Errors
                 className="text-danger"
-                model=".name"
+                model=".author"
                 show={{ touched: true }}
                 component="div"
                 messages={{
@@ -141,7 +142,7 @@ const CommentForm = ({ comments }) => {
                 model=".comment"
                 id="comment"
                 name="comment"
-                rows="4"
+                rows="6"
                 className="form-control"
                 validators={{ required }}
               />
@@ -187,7 +188,6 @@ export const DishdetailComponent = (props) => {
         </div>
         <div className="col-12 col-md-5 m-1">
           <RenderComments comments={props.comments} />
-          <CommentForm comments={props.comments} />
         </div>
       </div>
     </div>
