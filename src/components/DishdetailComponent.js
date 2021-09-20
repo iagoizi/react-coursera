@@ -1,3 +1,4 @@
+import * as React from "react";
 import {
   Card,
   CardImg,
@@ -10,12 +11,20 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter,
+  Row,
+  Label,
 } from "reactstrap";
+import { Control, Errors, LocalForm } from "react-redux-form";
 import { Link } from "react-router-dom";
-import * as React from "react";
+import { FaPencilAlt } from "react-icons/fa";
 
 import { required, maxLength, minLength } from "../shared/validators";
+
+//Just putting on CamelCase.
+Control.Text = Control.text;
+Control.Checkbox = Control.checkbox;
+Control.TextArea = Control.textarea;
+Control.Select = Control.select;
 
 const RenderDish = ({ dish }) =>
   dish != null ? (
@@ -63,26 +72,95 @@ const SubmitComment = ({ comments }) => {
 
   return (
     <div>
-      <Button onClick={toggle}>Submit Comment</Button>
+      <Button onClick={toggle} outline>
+        <FaPencilAlt /> Submit Comment
+      </Button>
       <Modal isOpen={isOpen} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+        <ModalHeader toggle={toggle}>Submit Comment</ModalHeader>
         <ModalBody>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
+          <LocalForm
+            onSubmit={(values) => {
+              console.log(values);
+              alert(JSON.stringify(values));
+              toggle();
+            }}
+          >
+            <Row className="form-group">
+              <Label className="form-label" htmlFor="rating">
+                Comment
+              </Label>
+              <Control.Select
+                model=".rating"
+                id="rating"
+                name="rating"
+                className="form-control"
+                defaultValue={10}
+              >
+                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
+                  <option key={number} value={number}>
+                    {number}
+                  </option>
+                ))}
+              </Control.Select>
+            </Row>
+
+            <Row className="form-group">
+              <Label className="form-label" htmlFor="name">
+                Your Name
+              </Label>
+              <Control.Text
+                model=".name"
+                id="name"
+                name="name"
+                className="form-control"
+                placeholder="Your Name"
+                validators={{
+                  required,
+                  minLength: minLength(3),
+                  maxLength: maxLength(15),
+                }}
+              />
+              <Errors
+                className="text-danger"
+                model=".name"
+                show={{ touched: true }}
+                component="div"
+                messages={{
+                  required: "Required",
+                  minLength: "Must be greater than 2 characters",
+                  maxLength: "Must be 15 characters or less",
+                }}
+              />
+            </Row>
+
+            <Row className="form-group">
+              <Label className="form-label" htmlFor="comment">
+                Comment
+              </Label>
+              <Control.TextArea
+                model=".comment"
+                id="comment"
+                name="comment"
+                rows="4"
+                className="form-control"
+                validators={{ required }}
+              />
+              <Errors
+                className="text-danger"
+                model=".comment"
+                show={{ touched: true }}
+                component="div"
+                messages={{
+                  required: "Required",
+                }}
+              />
+            </Row>
+
+            <Button type="submit" color="primary">
+              Submit
+            </Button>
+          </LocalForm>
         </ModalBody>
-        <ModalFooter>
-          <Button color="primary" onClick={toggle}>
-            Do Something
-          </Button>{" "}
-          <Button color="secondary" onClick={toggle}>
-            Cancel
-          </Button>
-        </ModalFooter>
       </Modal>
     </div>
   );
