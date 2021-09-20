@@ -65,7 +65,7 @@ const RenderComments = ({ comments }) =>
     <div></div>
   );
 
-const SubmitComment = ({ comments }) => {
+const CommentForm = ({ comments }) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const toggle = () => setIsOpen((previous) => !previous);
@@ -187,7 +187,7 @@ export const DishdetailComponent = (props) => {
         </div>
         <div className="col-12 col-md-5 m-1">
           <RenderComments comments={props.comments} />
-          <SubmitComment comments={props.comments} />
+          <CommentForm comments={props.comments} />
         </div>
       </div>
     </div>
