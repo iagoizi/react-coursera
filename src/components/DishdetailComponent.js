@@ -87,7 +87,7 @@ const CommentForm = ({ comments }) => {
           >
             <Row className="form-group">
               <Label className="form-label" htmlFor="rating">
-                Comment
+                Rating
               </Label>
               <Control.Select
                 model=".rating"
@@ -96,7 +96,7 @@ const CommentForm = ({ comments }) => {
                 className="form-control"
                 defaultValue={10}
               >
-                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((number) => (
+                {[0, 1, 2, 3, 4, 5].map((number) => (
                   <option key={number} value={number}>
                     {number}
                   </option>
