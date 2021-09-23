@@ -39,7 +39,7 @@ const RenderDish = ({ dish }) =>
     <div></div>
   );
 
-const RenderComments = ({ comments }) =>
+const RenderComments = ({ comments, addComment, dishId }) =>
   comments != null ? (
     <>
       <h4>Comments</h4>
@@ -60,16 +60,22 @@ const RenderComments = ({ comments }) =>
           );
         })}
       </ul>
-      <CommentForm comments={comments} />
+      <CommentForm
+        comments={comments}
+        dishId={dishId}
+        addComment={addComment}
+      />
     </>
   ) : (
     <div></div>
   );
 
-const CommentForm = ({ comments }) => {
+const CommentForm = ({ comments, addComment, dishId }) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const toggle = () => setIsOpen((previous) => !previous);
+  const handleSubmit = (values) =>
+    addComment(dishId, values.rating, values.author, values.comment);
 
   return (
     <div>
@@ -79,13 +85,7 @@ const CommentForm = ({ comments }) => {
       <Modal isOpen={isOpen} toggle={toggle}>
         <ModalHeader toggle={toggle}>Submit Comment</ModalHeader>
         <ModalBody>
-          <LocalForm
-            onSubmit={(values) => {
-              console.log(values);
-              alert(JSON.stringify(values));
-              toggle();
-            }}
-          >
+          <LocalForm onSubmit={handleSubmit}>
             <Row className="form-group">
               <Label className="form-label" htmlFor="rating">
                 Rating
@@ -167,29 +167,31 @@ const CommentForm = ({ comments }) => {
   );
 };
 
-export const DishdetailComponent = (props) => {
-  return (
-    <div className="container">
-      <div className="row">
-        <Breadcrumb>
-          <BreadcrumbItem>
-            <Link to="/menu">Menu</Link>
-          </BreadcrumbItem>
-          <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
-        </Breadcrumb>
-        <div className="col-12">
-          <h3>{props.dish.name}</h3>
-          <hr />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-12 col-md-5 m-1">
-          <RenderDish dish={props.dish} />
-        </div>
-        <div className="col-12 col-md-5 m-1">
-          <RenderComments comments={props.comments} />
-        </div>
+export const DishdetailComponent = (props) => (
+  <div className="container">
+    <div className="row">
+      <Breadcrumb>
+        <BreadcrumbItem>
+          <Link to="/menu">Menu</Link>
+        </BreadcrumbItem>
+        <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+      </Breadcrumb>
+      <div className="col-12">
+        <h3>{props.dish.name}</h3>
+        <hr />
       </div>
     </div>
-  );
-};
+    <div className="row">
+      <div className="col-12 col-md-5 m-1">
+        <RenderDish dish={props.dish} />
+      </div>
+      <div className="col-12 col-md-5 m-1">
+        <RenderComments
+          comments={props.comments}
+          addComment={props.addComment}
+          dishId={props.dish.id}
+        />
+      </div>
+    </div>
+  </div>
+);
