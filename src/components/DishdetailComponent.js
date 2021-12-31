@@ -41,7 +41,7 @@ const RenderDish = ({ dish }) =>
     <div></div>
   );
 
-const RenderComments = ({ comments, addComment, dishId }) =>
+const RenderComments = ({ comments, postComment, dishId }) =>
   comments != null ? (
     <>
       <h4>Comments</h4>
@@ -62,22 +62,18 @@ const RenderComments = ({ comments, addComment, dishId }) =>
           );
         })}
       </ul>
-      <CommentForm
-        comments={comments}
-        dishId={dishId}
-        addComment={addComment}
-      />
+      <CommentForm dishId={dishId} postComment={postComment} />
     </>
   ) : (
     <div></div>
   );
 
-const CommentForm = ({ comments, addComment, dishId }) => {
+const CommentForm = ({ postComment, dishId }) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
   const toggle = () => setIsOpen((previous) => !previous);
   const handleSubmit = (values) =>
-    addComment(dishId, values.rating, values.author, values.comment);
+    postComment(dishId, values.rating, values.author, values.comment);
 
   return (
     <div>
@@ -203,7 +199,7 @@ export const DishdetailComponent = (props) =>
         <div className="col-12 col-md-5 m-1">
           <RenderComments
             comments={props.comments}
-            addComment={props.addComment}
+            postComment={props.postComment}
             dishId={props.dish.id}
           />
         </div>
