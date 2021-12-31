@@ -20,6 +20,7 @@ import { FaPencilAlt } from "react-icons/fa";
 
 import { Loading } from "./LoadingComponent";
 import { required, maxLength, minLength } from "../shared/validators";
+import { baseUrl } from "../shared/baseUrl";
 
 //Just putting on CamelCase.
 Control.Text = Control.text;
@@ -30,7 +31,7 @@ Control.Select = Control.select;
 const RenderDish = ({ dish }) =>
   dish != null ? (
     <Card>
-      <CardImg top src={dish.image} alt={dish.name} />
+      <CardImg top src={baseUrl + dish.image} alt={dish.name} />
       <CardBody>
         <CardTitle>{dish.name}</CardTitle>
         <CardText>{dish.description}</CardText>
