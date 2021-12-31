@@ -18,6 +18,7 @@ import { Control, Errors, LocalForm } from "react-redux-form";
 import { Link } from "react-router-dom";
 import { FaPencilAlt } from "react-icons/fa";
 
+import { Loading } from "./LoadingComponent";
 import { required, maxLength, minLength } from "../shared/validators";
 
 //Just putting on CamelCase.
@@ -167,31 +168,46 @@ const CommentForm = ({ comments, addComment, dishId }) => {
   );
 };
 
-export const DishdetailComponent = (props) => (
-  <div className="container">
-    <div className="row">
-      <Breadcrumb>
-        <BreadcrumbItem>
-          <Link to="/menu">Menu</Link>
-        </BreadcrumbItem>
-        <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
-      </Breadcrumb>
-      <div className="col-12">
-        <h3>{props.dish.name}</h3>
-        <hr />
+export const DishdetailComponent = (props) =>
+  props.isLoading ? (
+    <div className="container">
+      <div className="row">
+        <Loading />
       </div>
     </div>
-    <div className="row">
-      <div className="col-12 col-md-5 m-1">
-        <RenderDish dish={props.dish} />
-      </div>
-      <div className="col-12 col-md-5 m-1">
-        <RenderComments
-          comments={props.comments}
-          addComment={props.addComment}
-          dishId={props.dish.id}
-        />
+  ) : props.errMess ? (
+    <div className="container">
+      <div className="row">
+        <h4>{props.errMess}</h4>
       </div>
     </div>
-  </div>
-);
+  ) : props.dish != null ? (
+    <div className="container">
+      <div className="row">
+        <Breadcrumb>
+          <BreadcrumbItem>
+            <Link to="/menu">Menu</Link>
+          </BreadcrumbItem>
+          <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+        </Breadcrumb>
+        <div className="col-12">
+          <h3>{props.dish.name}</h3>
+          <hr />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-12 col-md-5 m-1">
+          <RenderDish dish={props.dish} />
+        </div>
+        <div className="col-12 col-md-5 m-1">
+          <RenderComments
+            comments={props.comments}
+            addComment={props.addComment}
+            dishId={props.dish.id}
+          />
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div></div>
+  );
