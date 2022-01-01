@@ -16,6 +16,7 @@ import {
   fetchDishes,
   fetchComments,
   fetchPromos,
+  fetchLeaders,
 } from "../redux/ActionCreators";
 
 const mapStateToProps = (state) => ({
@@ -30,6 +31,7 @@ const mapDispatchToProps = (dispatch) => ({
   resetFeedbackForm: () => dispatch(actions.reset("feedback")),
   fetchComments: () => dispatch(fetchComments()),
   fetchPromos: () => dispatch(fetchPromos()),
+  fetchLeaders: () => dispatch(fetchLeaders()),
   postComment: (dishId, rating, author, comment) =>
     dispatch(postComment(dishId, rating, author, comment)),
 });
@@ -38,6 +40,7 @@ class Main extends Component {
     this.props.fetchDishes();
     this.props.fetchComments();
     this.props.fetchPromos();
+    this.props.fetchLeaders();
   }
 
   render() {
@@ -68,7 +71,11 @@ class Main extends Component {
         }
         promoLoading={this.props.promotions.isLoading}
         promoErrMess={this.props.promotions.errMess}
-        leader={this.props.leaders.filter((leader) => leader.featured)[0]}
+        leader={
+          this.props.leaders.leaders.filter((leader) => leader.featured)[0]
+        }
+        leaderLoading={this.props.leaders.isLoading}
+        leaderErrMess={this.props.leaders.errMess}
       />
     );
 
