@@ -17,6 +17,7 @@ import {
 import { Control, Errors, LocalForm } from "react-redux-form";
 import { Link } from "react-router-dom";
 import { FaPencilAlt } from "react-icons/fa";
+import { FadeTransform, Fade, Stagger } from "react-animation-components";
 
 import { Loading } from "./LoadingComponent";
 import { required, maxLength, minLength } from "../shared/validators";
@@ -30,13 +31,20 @@ Control.Select = Control.select;
 
 const RenderDish = ({ dish }) =>
   dish != null ? (
-    <Card>
-      <CardImg top src={baseUrl + dish.image} alt={dish.name} />
-      <CardBody>
-        <CardTitle>{dish.name}</CardTitle>
-        <CardText>{dish.description}</CardText>
-      </CardBody>
-    </Card>
+    <FadeTransform
+      in
+      transformProps={{
+        exitTransform: "scale(0.5) translateY(-50%)",
+      }}
+    >
+      <Card>
+        <CardImg top src={baseUrl + dish.image} alt={dish.name} />
+        <CardBody>
+          <CardTitle>{dish.name}</CardTitle>
+          <CardText>{dish.description}</CardText>
+        </CardBody>
+      </Card>
+    </FadeTransform>
   ) : (
     <div></div>
   );
@@ -46,21 +54,23 @@ const RenderComments = ({ comments, postComment, dishId }) =>
     <>
       <h4>Comments</h4>
       <ul className="list-unstyled">
-        {comments.map((comment) => {
-          return (
-            <>
-              <li>{comment.comment}</li>
-              <li>
-                --{comment.author},{" "}
-                {new Intl.DateTimeFormat("en-US", {
-                  year: "numeric",
-                  month: "short",
-                  day: "2-digit",
-                }).format(new Date(Date.parse(comment.date)))}
-              </li>
-            </>
-          );
-        })}
+        <Stagger in>
+          {comments.map((comment) => {
+            return (
+              <Fade in>
+                <li>{comment.comment}</li>
+                <li>
+                  --{comment.author},{" "}
+                  {new Intl.DateTimeFormat("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "2-digit",
+                  }).format(new Date(Date.parse(comment.date)))}
+                </li>
+              </Fade>
+            );
+          })}
+        </Stagger>
       </ul>
       <CommentForm dishId={dishId} postComment={postComment} />
     </>
