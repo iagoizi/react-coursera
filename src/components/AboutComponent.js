@@ -8,6 +8,7 @@ import {
   Media,
 } from "reactstrap";
 import { Link } from "react-router-dom";
+import { Fade, Stagger } from "react-animation-components";
 import { Loading } from "./LoadingComponent";
 import { baseUrl } from "../shared/baseUrl";
 
@@ -27,7 +28,9 @@ function About(props) {
   };
 
   const leaders = props.leaders.leaders.map((leader) => (
-    <RenderLeader leader={leader} key={leader.id} />
+    <Fade in key={leader.id}>
+      <RenderLeader leader={leader} />
+    </Fade>
   ));
 
   if (props.leaders.isLoading) {
@@ -125,7 +128,9 @@ function About(props) {
             <h2>Corporate Leadership</h2>
           </div>
           <div className="col-12">
-            <Media list>{leaders}</Media>
+            <Media list>
+              <Stagger in>{leaders}</Stagger>
+            </Media>
           </div>
         </div>
       </div>
